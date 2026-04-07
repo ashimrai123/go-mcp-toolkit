@@ -1,0 +1,19 @@
+# binary output
+mcp-server
+bin/
+
+# go toolchain
+*.test
+*.out
+
+# air (live reload)
+tmp/
+
+# editor
+.vscode/
+.idea/
+*.swp
+
+# env / secrets
+.env
+*.env
