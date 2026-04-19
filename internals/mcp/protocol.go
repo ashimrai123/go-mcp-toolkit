@@ -7,7 +7,7 @@ import (
 func HandleInitialize(req types.Request) types.Response {
 
 	result := map[string]any{
-		"protocolVersion": "2022-11-05",
+		"protocolVersion": "2024-11-05",
 		"serverInfo": map[string]any{
 			"name":    "go-mcp-server",
 			"version": "0.1.0",

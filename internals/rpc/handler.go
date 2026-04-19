@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/ashimrai123/go-mcp-toolkit/internals/mcp"
+	"github.com/ashimrai123/go-mcp-toolkit/internals/tools"
 	"github.com/ashimrai123/go-mcp-toolkit/internals/types"
 )
 
@@ -23,6 +24,12 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, mcp.HandleInitialize(req))
 	case "notifications/initialized":
 		mcp.HandleInitialized(req) // no response
+	case "tools/list":
+		writeJSON(w, types.Response{
+			JSONRPC: "2.0",
+			ID:      req.ID,
+			Result:  map[string]any{"tools": tools.List()},
+		})
 	default:
 		writeJSON(w, types.ErrorResponse(req.ID, -32601, "method not found"))
 	}
