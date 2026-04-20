@@ -7,6 +7,7 @@ import (
 	"github.com/ashimrai123/go-mcp-toolkit/internals/rpc"
 	"github.com/ashimrai123/go-mcp-toolkit/internals/tools"
 	"github.com/ashimrai123/go-mcp-toolkit/internals/tools/echo"
+	"github.com/ashimrai123/go-mcp-toolkit/internals/transport"
 )
 
 func main() {
@@ -19,6 +20,8 @@ func main() {
 	})
 
 	mux.HandleFunc("/message", rpc.Handle)
+
+	mux.HandleFunc("/sse", transport.SSEHandler)
 
 	log.Println("Server starting on :8080")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
