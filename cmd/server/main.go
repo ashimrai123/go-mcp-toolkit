@@ -5,10 +5,12 @@ import (
 	"net/http"
 
 	"github.com/ashimrai123/go-mcp-toolkit/internals/rpc"
+	"github.com/ashimrai123/go-mcp-toolkit/internals/tools"
+	"github.com/ashimrai123/go-mcp-toolkit/internals/tools/echo"
 )
 
 func main() {
-
+	tools.Register(echo.Skill{})
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {

@@ -30,6 +30,28 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 			ID:      req.ID,
 			Result:  map[string]any{"tools": tools.List()},
 		})
+	case "tools/call":
+		name, _ := req.Params["name"].(string)
+		params, _ := req.Params["arguments"].(map[string]any)
+		tool, ok := tools.Get(name)
+		if !ok {
+			writeJSON(w, types.ErrorResponse(req.ID, -32601, "unknown tool: "+name))
+			return
+		}
+		result, err := tool.Execute(r.Context(), params)
+		if err != nil {
+			writeJSON(w, types.ErrorResponse(req.ID, -32603, err.Error()))
+			return
+		}
+		writeJSON(w, types.Response{
+			JSONRPC: "2.0",
+			ID:      req.ID,
+			Result: map[string]any{
+				"content": []map[string]any{
+					{"type": "text", "text": result},
+				},
+			},
+		})
 	default:
 		writeJSON(w, types.ErrorResponse(req.ID, -32601, "method not found"))
 	}
